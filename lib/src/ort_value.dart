@@ -266,23 +266,23 @@ class OrtValueTensor extends OrtValue {
     return OrtValueTensor(ortValuePtr);
   }
 
-  static OrtValueTensor createTensorWithData(dynamic data) {
-    if (data is int) {
-      return createTensorWithDataList(<int>[data], []);
-    }
-    if (data is double) {
-      return createTensorWithDataList(<double>[data], []);
-    }
-    if (data is bool) {
-      return createTensorWithDataList(<bool>[data], []);
-    }
-    if (data is String) {
-      return _createTensorWithString(data);
-    }
-    throw Exception('Invalid element type');
-  }
+  // static OrtValueTensor createTensorWithData(dynamic data) {
+  //   if (data is int) {
+  //     return createTensorWithDataList(<int>[data], []);
+  //   }
+  //   if (data is double) {
+  //     return createTensorWithDataList(<double>[data], []);
+  //   }
+  //   if (data is bool) {
+  //     return createTensorWithDataList(<bool>[data], []);
+  //   }
+  //   if (data is String) {
+  //     return _createTensorWithString(data);
+  //   }
+  //   throw Exception('Invalid element type');
+  // }
 
-  static OrtValueTensor createTensorWithDataList(List data,
+  static MapEntry<ffi.Pointer<ffi.Void>, OrtValueTensor>  createTensorWithDataList(List data,
       [List<int>? shape]) {
     shape ??= data.shape;
     final element = data.element();
@@ -380,8 +380,8 @@ class OrtValueTensor extends OrtValue {
       }
       dataPtr = ptr.cast();
       dataByteCount = dataSize;
-    } else if (element is String) {
-      return _createTensorWithStringList(data.cast<String>(), shape);
+    // } else if (element is String) {
+    //   return _createTensorWithStringList(data.cast<String>(), shape);
     } else {
       throw Exception('Invalid inputTensor element type.');
     }
@@ -428,7 +428,7 @@ class OrtValueTensor extends OrtValue {
     // calloc.free(dataPtr);
     calloc.free(ortValuePtrPtr);
     calloc.free(ortMemoryInfoPtrPtr);
-    return OrtValueTensor(ortValuePtr);
+    return MapEntry(dataPtr, OrtValueTensor(ortValuePtr));
   }
 
   @override

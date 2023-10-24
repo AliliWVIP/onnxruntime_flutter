@@ -72,7 +72,7 @@ class OrtSession {
 
   _init() {
     _inputCount = _getInputCount();
-    _inputNames = _getInputNames();
+    _inputNames = getInputNames();
     _outputCount = _getOutputCount();
     _outputNames = _getOutputNames();
   }
@@ -101,7 +101,7 @@ class OrtSession {
     return count;
   }
 
-  List<String> _getInputNames() {
+  List<String> getInputNames() {
     final list = <String>[];
     for (var i = 0; i < _inputCount; ++i) {
       final namePtrPtr = calloc<ffi.Pointer<ffi.Char>>();
